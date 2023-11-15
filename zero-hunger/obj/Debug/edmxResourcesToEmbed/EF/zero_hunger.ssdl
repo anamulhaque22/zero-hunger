@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="zero_hungerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CollectRequest">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Restaurant_ID" Type="int" Nullable="false" />
+    <Property Name="RequestedTime" Type="date" Nullable="false" />
+    <Property Name="AssignBy" Type="int" />
+    <Property Name="AssignEmployee" Type="int" />
+    <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="PreservedTime" Type="date" Nullable="false" />
+    <Property Name="FoodItem" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Distribution">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Request_ID" Type="int" Nullable="false" />
+    <Property Name="Employee_ID" Type="int" Nullable="false" />
+    <Property Name="DateDistributed" Type="date" />
+    <Property Name="Area" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Phone" Type="varchar" MaxLength="14" Nullable="false" />
+    <Property Name="Address" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Restaurant">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Address" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Phone" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_CollectRequest_Accept">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+    <End Role="CollectRequest" Type="Self.CollectRequest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CollectRequest">
+        <PropertyRef Name="AssignBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CollectRequest_Assign">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+    <End Role="CollectRequest" Type="Self.CollectRequest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CollectRequest">
+        <PropertyRef Name="AssignEmployee" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CollectRequest_Restaurant">
+    <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="1" />
+    <End Role="CollectRequest" Type="Self.CollectRequest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Restaurant">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CollectRequest">
+        <PropertyRef Name="Restaurant_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Distribution_Emp">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+    <End Role="Distribution" Type="Self.Distribution" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Distribution">
+        <PropertyRef Name="Employee_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="zero_hungerModelStoreContainer">
+    <EntitySet Name="CollectRequest" EntityType="Self.CollectRequest" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Distribution" EntityType="Self.Distribution" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Restaurant" EntityType="Self.Restaurant" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_CollectRequest_Accept" Association="Self.FK_CollectRequest_Accept">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="CollectRequest" EntitySet="CollectRequest" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CollectRequest_Assign" Association="Self.FK_CollectRequest_Assign">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="CollectRequest" EntitySet="CollectRequest" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CollectRequest_Restaurant" Association="Self.FK_CollectRequest_Restaurant">
+      <End Role="Restaurant" EntitySet="Restaurant" />
+      <End Role="CollectRequest" EntitySet="CollectRequest" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Distribution_Emp" Association="Self.FK_Distribution_Emp">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="Distribution" EntitySet="Distribution" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

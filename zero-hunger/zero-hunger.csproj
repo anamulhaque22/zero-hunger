@@ -45,10 +45,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=10.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.10.0.0\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -120,7 +131,40 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RestaurantController.cs" />
+    <Compile Include="DTO\CollectRequestDTO.cs" />
+    <Compile Include="DTO\EmployeeDTO.cs" />
+    <Compile Include="DTO\LoginDTO.cs" />
+    <Compile Include="DTO\RestaurantDTO.cs" />
+    <Compile Include="EF\CollectRequest.cs">
+      <DependentUpon>zero_hunger.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\Distribution.cs">
+      <DependentUpon>zero_hunger.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\Employee.cs">
+      <DependentUpon>zero_hunger.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\Restaurant.cs">
+      <DependentUpon>zero_hunger.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\zero_hunger.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>zero_hunger.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\zero_hunger.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>zero_hunger.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\zero_hunger.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>zero_hunger.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -143,6 +187,17 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\DashboardShideBar.css" />
+    <Content Include="EF\zero_hunger.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>zero_hunger.edmx</DependentUpon>
+      <LastGenOutput>zero_hunger.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="EF\zero_hunger.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>zero_hunger.edmx</DependentUpon>
+      <LastGenOutput>zero_hunger.cs</LastGenOutput>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -152,6 +207,13 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <EntityDeploy Include="EF\zero_hunger.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>zero_hunger.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="EF\zero_hunger.edmx.diagram">
+      <DependentUpon>zero_hunger.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -177,6 +239,15 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\_RestaurantLayout.cshtml" />
+    <Content Include="Views\Restaurant\Create.cshtml" />
+    <Content Include="Views\Restaurant\Login.cshtml" />
+    <Content Include="Views\Restaurant\Index.cshtml" />
+    <Content Include="Views\Restaurant\CreateCollectRequest.cshtml" />
+    <Content Include="Views\Restaurant\EditCreateCollectRequest.cshtml" />
+    <Content Include="Views\Shared\_EmployeeLayout.cshtml" />
+    <Content Include="Views\Employee\Login.cshtml" />
+    <Content Include="Views\Employee\Registration.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -208,6 +279,9 @@
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

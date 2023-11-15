@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Create";
+    ViewBag.HeadingTitle = "Category List";
+    Layout = "~/Views/Shared/_RestaurantLayout.cshtml";
+}
+<div class="container">
+    <table class="table table-success table-striped table-hover">
+        <tr>
+            <th>Id</th>
+            <th>FoodItem</th>
+            <th>Employee</th>
+            <th>Preserve Time</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Id
+                </td>
+                <td>
+                    @item.FoodItem
+                </td>
+                <td>@(item.AssignEmployee == null ? "-" : item.AssignEmployee)</td>
+                <td>@item.PreservedTime</td>
+                <td>@item.Status</td>
+                <td>
+                    <a class="me-2" href="EditCreateCollectRequest/@item.Id">Edit</a>
+                    
+                </td>
+            </tr>
+        }
+
+    </table>
+
+</div>

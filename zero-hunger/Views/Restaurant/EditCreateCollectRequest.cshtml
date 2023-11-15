@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "EditCreateCollectRequest";
+    ViewBag.HeadingTitle = "Update Food Collect Request ";
+    Layout = "~/Views/Shared/_RestaurantLayout.cshtml";
+}
+
+<div class="d-flex align-items-center justify-content-center h-100">
+    <form method="post" action="" class="shadow-lg p-4 mb-5 bg-body-tertiary rounded" enctype="multipart/form-data">
+        <div class="form-group mb-3">
+            <label class="form-label" for="title">Food Item</label>
+            <input type="text" name="FoodItem" class="form-control" id="title" placeholder="Food Item" value="@(Model.FoodItem != null ? Model.FoodItem : "")">
+            @Html.ValidationMessage("FoodItem")
+        </div>
+        <div class="form-group mb-3">
+            <label class="form-label" for="preserveTime">Preserve Time</label>
+            <input type="date" name="PreservedTime" class="form-control" id="preserveTime" placeholder="Preserve Time" value="@(Model.PreservedTime != null ? Model.PreservedTime.ToString("yyyy-MM-dd"): "" )">
+            @Html.ValidationMessage("PreservedTime")
+        </div>
+        <input type="hidden" name="Id" value="@Model.Id" />
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
