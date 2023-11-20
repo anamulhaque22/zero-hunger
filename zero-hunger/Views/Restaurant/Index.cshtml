@@ -8,7 +8,7 @@
         <tr>
             <th>Id</th>
             <th>FoodItem</th>
-            <th>Employee</th>
+            <th>Assign Employee</th>
             <th>Preserve Time</th>
             <th>Status</th>
             <th>Action</th>
@@ -23,12 +23,11 @@
                 <td>
                     @item.FoodItem
                 </td>
-                <td>@(item.AssignEmployee == null ? "-" : item.AssignEmployee)</td>
+                <td>@(item.AssignedEmployeeId == null ? "-" : item.AssignedEmployeeId)</td>
                 <td>@item.PreservedTime</td>
                 <td>@item.Status</td>
                 <td>
-                    <a class="me-2" href="EditCreateCollectRequest/@item.Id">Edit</a>
-                    
+                    <a class="me-2" href="@Url.Action("EditCreateCollectRequest", "Restaurant", new {id = item.Id})">Edit</a>
                 </td>
             </tr>
         }

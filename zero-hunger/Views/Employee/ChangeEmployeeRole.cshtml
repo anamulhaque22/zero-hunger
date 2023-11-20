@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewBag.Title = "ChangeEmployeeRole";
+    ViewBag.HeadingTitle = "Change Employee Role";
+    Layout = "~/Views/Shared/_EmployeeLayout.cshtml";
+}
+@{
+    if (Session["EmployeeRole"] == null)
+    {
+        <script>
+            window.location.href = '/Employee/Login';
+        </script>
+    }
+    else
+    {
+        string sessionUserRole = Session["EmployeeRole"] as string;
+        if (Session["EmployeeId"] !=null && Model.Id == Convert.ToInt16(Session["EmployeeId"]))
+        {
+            <h2>You not allowed to change your role</h2>
+        }
+        else if (sessionUserRole == zero_hunger.EF.Models.UserRole.Regular.ToString())
+        {
+            <h2>You not permitted to change employee role</h2>
+        }
+        else
+        {
+            <div class="d-flex align-items-center justify-content-center h-100">
+
+                <form method="post" action="" class="shadow-lg p-4 mb-5 bg-body-tertiary rounded" enctype="multipart/form-data">
+
+                    <select class="form-select mb-2" aria-label="Default select example" name="Role">
+                        <option selected>Select A Role</option>
+                        <option value="@zero_hunger.EF.Models.UserRole.Admin">Admin</option>
+                        <option value="@zero_hunger.EF.Models.UserRole.Regular">Regular</option>
+                    </select>
+                    <input type="hidden" name="Restaurant_ID" value="@Model.Id" />
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            if (ViewBag.Notification != null)
+            {
+                <h3>Model.Notification </h3>
+            }
+
+
+        }
+    }
+}
+
+

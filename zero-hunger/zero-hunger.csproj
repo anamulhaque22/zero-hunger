@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -49,10 +50,10 @@
       <HintPath>..\packages\AutoMapper.10.0.0\lib\net461\AutoMapper.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
@@ -131,43 +132,30 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Auth\EmployeeAuth.cs" />
+    <Compile Include="Auth\RestaurantAuth.cs" />
+    <Compile Include="Controllers\DistributionController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RestaurantController.cs" />
     <Compile Include="DTO\CollectRequestDTO.cs" />
     <Compile Include="DTO\EmployeeDTO.cs" />
+    <Compile Include="DTO\EmployeeRoleChangeDto.cs" />
     <Compile Include="DTO\LoginDTO.cs" />
     <Compile Include="DTO\RestaurantDTO.cs" />
-    <Compile Include="EF\CollectRequest.cs">
-      <DependentUpon>zero_hunger.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EF\Distribution.cs">
-      <DependentUpon>zero_hunger.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EF\Employee.cs">
-      <DependentUpon>zero_hunger.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EF\Restaurant.cs">
-      <DependentUpon>zero_hunger.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EF\zero_hunger.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>zero_hunger.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EF\zero_hunger.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>zero_hunger.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EF\zero_hunger.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>zero_hunger.edmx</DependentUpon>
-    </Compile>
+    <Compile Include="EF\Models\CollectRequest.cs" />
+    <Compile Include="EF\Models\Distribution.cs" />
+    <Compile Include="EF\Models\Employee.cs" />
+    <Compile Include="EF\Models\Restaurant.cs" />
+    <Compile Include="EF\ZeroHungerContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202311191433299_InitialModel.cs" />
+    <Compile Include="Migrations\202311191433299_InitialModel.designer.cs">
+      <DependentUpon>202311191433299_InitialModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -188,16 +176,6 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\DashboardShideBar.css" />
-    <Content Include="EF\zero_hunger.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>zero_hunger.edmx</DependentUpon>
-      <LastGenOutput>zero_hunger.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="EF\zero_hunger.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>zero_hunger.edmx</DependentUpon>
-      <LastGenOutput>zero_hunger.cs</LastGenOutput>
-    </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -207,13 +185,6 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="EF\zero_hunger.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>zero_hunger.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="EF\zero_hunger.edmx.diagram">
-      <DependentUpon>zero_hunger.edmx</DependentUpon>
-    </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -248,10 +219,17 @@
     <Content Include="Views\Shared\_EmployeeLayout.cshtml" />
     <Content Include="Views\Employee\Login.cshtml" />
     <Content Include="Views\Employee\Registration.cshtml" />
+    <Content Include="Views\Employee\Index.cshtml" />
+    <Content Include="Views\Employee\EmployeeList.cshtml" />
+    <Content Include="Views\Employee\ChangeEmployeeRole.cshtml" />
+    <Content Include="Views\Employee\AssignEmployeeToCollect.cshtml" />
+    <Content Include="Views\Employee\CollectedFood.cshtml" />
+    <Content Include="Views\Employee\AssigndEmployeeCollReqList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\Distribution\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -282,6 +260,11 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202311191433299_InitialModel.resx">
+      <DependentUpon>202311191433299_InitialModel.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -316,7 +299,10 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
   </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

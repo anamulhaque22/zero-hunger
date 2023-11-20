@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "CollectedFood";
+    ViewBag.HeadingTitle = "Collected Food List";
+    Layout = "~/Views/Shared/_EmployeeLayout.cshtml";
+}
+
+<div class="container">
+    <table class="table table-success table-striped table-hover">
+        <tr>
+            <th>Id</th>
+            <th>FoodItem</th>
+            <th>Accept By</th>
+            <th>Assign Employee</th>
+            <th>Preserve Time</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Id
+                </td>
+                <td>
+                    @item.FoodItem
+                </td>
+                <td>@(item.AcceptedByEmployeeId == null ? "-" : item.AcceptedByEmployeeId)</td>
+                <td>@(item.AssignedEmployeeId == null ? "-" : item.AssignedEmployeeId)</td>
+                <td>@item.PreservedTime</td>
+                <td>@item.Status</td>
+                <td>
+                    <a class="me-2" href="@Url.Action("AssignEmployeeToCollect", "Employee", new {id = item.Id})">Edit</a>
+                </td>
+            </tr>
+        }
+
+    </table>
+
+</div>
+

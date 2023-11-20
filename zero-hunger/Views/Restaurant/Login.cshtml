@@ -36,7 +36,8 @@
             <div class="d-flex justify-content-center">
                 <button type="submit" class="btn btn-primary">Login</button>
             </div>
-            <p class="text-center mt-3">Don't have an account? @Html.ActionLink("Register", "Registration", "Customer", new { area = "" })</p>
+            <p class="text-center mt-3">Don't have an account? <a href="@Url.Action("Create", "Restaurant")">Register</a>
+            </p>
             <p class="mb-4 text-danger fw-bold text-center">@ViewBag.Notification</p>
         </form>
     </div>
