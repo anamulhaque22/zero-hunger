@@ -42,7 +42,16 @@
 
         <!-- Page Content  -->
         <div id="content">
-            <h3 class="page-title text-center py-2 text-white">@ViewBag.HeadingTitle</h3>
+            <div class="page-title py-2 d-flex justify-content-between px-4">
+                <h3 class=" text-white">@ViewBag.HeadingTitle</h3>
+                @if (Session["EmployeeName"] != null)
+                {
+                    <p class="text-white">
+                        <span>@Session["RestaurantName"].ToString()</span>
+                    </p>
+                }
+
+            </div>
             @RenderBody()
         </div>
     </div>

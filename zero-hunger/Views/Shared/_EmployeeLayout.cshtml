@@ -38,8 +38,16 @@
                 </li>
 
                 <li>
+                    <a href="@Url.Action("DeliveredFoodList", "Employee")">Delivered Food</a>
+                </li>
+
+                <li>
                     <a href="@Url.Action("AssigndEmployeeCollReqList", "Employee")">Assign To Collect</a>
                 </li>
+                <li>
+                    <a href="@Url.Action("RestaurantList", "Employee")">Restaurant List</a>
+                </li>
+
 
             </ul>
 
@@ -55,7 +63,11 @@
                         <span>@Session["EmployeeName"].ToString()</span>
                         <span><a href="@Url.Action("Logout", "Employee")">Logout</a></span>
                     </p>
-                }
+}
+else
+            {
+                <a href="@Url.Action("Login", "Employee")">Login</a>
+            }
 
             </div>
             @RenderBody()

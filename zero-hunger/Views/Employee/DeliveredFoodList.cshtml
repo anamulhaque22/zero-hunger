@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "Deliverd Food";
+    ViewBag.HeadingTitle = "Delivered Food List";
+    Layout = "~/Views/Shared/_EmployeeLayout.cshtml";
+}
+<div class="container">
+    <table class="table table-success table-striped table-hover">
+        <tr>
+            <th>Id</th>
+            <th>FoodItem</th>
+            <th>Delivered By</th>
+            <th>Status</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Id
+                </td>
+                <td>
+                    @item.CollectRequest.FoodItem
+                </td>
+                <td>@item.DistributedBy.Name</td>
+                <td>@item.CollectRequest.Status</td>
+            </tr>
+        }
+
+    </table>
+
+</div>
+

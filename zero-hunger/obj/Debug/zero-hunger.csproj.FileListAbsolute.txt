@@ -170,3 +170,4 @@ C:\Users\ah533\OneDrive\Desktop\zero-hunger\zero-hunger\bin\Microsoft.CodeDom.Pr
 C:\Users\ah533\OneDrive\Desktop\zero-hunger\zero-hunger\obj\Debug\zero-hunger.csproj.CopyComplete
 C:\Users\ah533\OneDrive\Desktop\zero-hunger\zero-hunger\obj\Debug\zero_hunger.Migrations.InitialModel.resources
 C:\Users\ah533\OneDrive\Desktop\zero-hunger\zero-hunger\obj\Debug\zero-hunger.csproj.GenerateResource.cache
+C:\Users\ah533\OneDrive\Desktop\zero-hunger\zero-hunger\obj\Debug\zero_hunger.Migrations.DistributionModelRequireAtt.resources

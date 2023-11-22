@@ -1,0 +1,37 @@
+﻿
+@{
+    ViewBag.Title = "Restaurant List";
+    ViewBag.HeadingTitle = "Restaurant List";
+    Layout = "~/Views/Shared/_EmployeeLayout.cshtml";
+}
+
+<div class="container">
+    <table class="table table-success table-striped table-hover">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Contact Info</th>
+            <th>Address</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Id
+                </td>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    <p class="mb-0">@item.Email</p>
+                    <p class="mb-0">@item.Phone</p>
+                </td>
+                <td>@item.Address</td>
+            </tr>
+        }
+
+    </table>
+
+</div>
+

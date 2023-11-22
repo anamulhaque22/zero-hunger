@@ -31,7 +31,7 @@
                 <td>@item.PreservedTime</td>
                 <td>@item.Status</td>
                 <td>
-                    <a class="me-2" href="@Url.Action("AssignEmployeeToCollect", "Employee", new {id = item.Id})">Edit</a>
+                    <a class="me-2" href="@Url.Action("AssignEmpForDist", "Employee", new {id = item.Id})">Edit</a>
                 </td>
             </tr>
         }

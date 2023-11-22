@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -27,10 +28,27 @@ namespace zero_hunger.Controllers
         public ActionResult CollectedFood()
         {
             var db = new ZeroHungerContext();
-            var collectRequestList = db.CollectRequests
-                .Where(cr => cr.Status == "Collected")
-                .ToList();
-            return View(collectRequestList);
+
+            if (Session["EmployeeId"] != null)
+            {
+                string sessionRole = Session["EmployeeId"] as string;
+                if (sessionRole == UserRole.Regular.ToString())
+                {
+                    int userId = Convert.ToInt16(sessionRole);
+                    var collectRequestListR = db.CollectRequests
+                                                    .Where(cr => cr.Status == "Collected" && cr.AssignedEmployeeId == userId)
+                                                    .ToList();
+                    return View(collectRequestListR);
+                }
+                else
+                {
+                    var collectRequestList = db.CollectRequests
+                                    .Where(cr => cr.Status == "Collected")
+                                    .ToList();
+                    return View(collectRequestList);
+                }
+            }
+            return RedirectToAction("Login", "Employee");
         }
 
         //collect request where employee is assigned to collect the food
@@ -56,23 +74,87 @@ namespace zero_hunger.Controllers
             }
             else
             {
-                string sessionRole = Session["EmployeeRole"] as string;
+                var dbCollectReq = db.CollectRequests.Find(collectReqId);
+                dbCollectReq.Status = "Collected";
+                db.SaveChanges();
+                return RedirectToAction("CollectedFood", "Employee");
+            }
+        }
+
+        // assigning employee to distribute the food item
+
+        [HttpGet]
+        public ActionResult AssignEmpForDist(int id)
+        {
+            var db = new ZeroHungerContext();
+            List<Employee> employees = db.Employees.ToList();
+            var collectReq = db.CollectRequests
+                .Where(cr => cr.Id == id && cr.Status == "Collected")
+                .FirstOrDefault();
+            ViewBag.EmployeeList = employees;
+            ViewBag.CollectedFood = collectReq;
+            ViewBag.Notification = null;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AssignEmpForDist(Distribution d)
+        {
+            var db = new ZeroHungerContext();
+            var collectReq = db.CollectRequests.Find(d.CollectRequestId);
+            var assignEmp = db.Employees.Find(d.DistributedById);
+
+            if (collectReq == null || assignEmp == null)
+            {
+                ViewBag.Notification = "Food item is no found!";
+                return View(d);
+            }
+            collectReq.Status = "Delivered";
+            Distribution newDistributin = new Distribution
+            {
+                CollectRequest = collectReq,
+                DistributedBy = assignEmp,
+                Area = d.Area,
+            };
+            db.Distributions.Add(newDistributin);
+            db.SaveChanges();
+            return RedirectToAction("DeliveredFoodList", "Employee");
+        }
+
+        public ActionResult DeliveredFoodList()
+        {
+            var db = new ZeroHungerContext();
+
+            if (Session["EmployeeId"] != null)
+            {
+                string sessionRole = Session["EmployeeId"] as string;
                 if (sessionRole == UserRole.Regular.ToString())
                 {
-                    var dbCollectReq = db.CollectRequests.Find(collectReqId);
-                    dbCollectReq.Status = "Collected";
-                    db.SaveChanges();
-                    return RedirectToAction("CollectedFood", "Employee");
+                    int userId = Convert.ToInt16(sessionRole);
+                    var deliveredList = db.Distributions
+                                                    .Include(d => d.CollectRequest)
+                                                     .Include(d => d.DistributedBy)
+                                                    .Where(cr => cr.DistributedById == userId)
+                                                    .ToList();
+                    return View(deliveredList);
+                }
+                else
+                {
+                    var collectRequestList = db.Distributions
+                                    .Include(d => d.CollectRequest)
+                                    .Include(d => d.DistributedBy)
+                                    .ToList();
+                    return View(collectRequestList);
                 }
             }
-            return RedirectToAction("CollectedFood", "Employee");
+            return RedirectToAction("Login", "Employee");
         }
 
 
         public ActionResult EmployeeList()
         {
             var db = new ZeroHungerContext();
-            var employeeList = db.Employees.ToList();   
+            var employeeList = db.Employees.ToList();
             return View(employeeList);
         }
 
@@ -92,7 +174,7 @@ namespace zero_hunger.Controllers
 
             if (Session["EmployeeRole"] == null)
             {
-                return RedirectToAction("Login","Employee");
+                return RedirectToAction("Login", "Employee");
             }
             else
             {
@@ -142,7 +224,7 @@ namespace zero_hunger.Controllers
             else
             {
                 string sessionRole = Session["EmployeeRole"] as string;
-                if(sessionRole == UserRole.Admin.ToString())
+                if (sessionRole == UserRole.Admin.ToString())
                 {
                     int sessionId = Convert.ToInt16(Session["EmployeeId"]);
                     var dbCollectReq = db.CollectRequests.Find(collectReqId);
@@ -162,10 +244,11 @@ namespace zero_hunger.Controllers
                 }
             }
         }
-        
+
         [HttpGet]
         public ActionResult Login()
         {
+            ViewBag.Notification = null;
             return View();
         }
 
@@ -173,16 +256,35 @@ namespace zero_hunger.Controllers
         public ActionResult Login(LoginDTO c)
         {
             var db = new ZeroHungerContext();
-            var verifiedUser = db.Employees.Where(x => x.Email.Equals(c.Email) && x.Password.Equals(c.Password)).FirstOrDefault();
-            if (verifiedUser != null)
+
+            if (ModelState.IsValid)
             {
-                Session["EmployeeEmail"] = c.Email.ToString();
-                Session["EmployeeName"] = verifiedUser.Name.ToString();
-                Session["EmployeeId"] = verifiedUser.Id.ToString();
-                Session["EmployeeRole"] = verifiedUser.Role.ToString();
-                return RedirectToAction("Index", "Employee");
+                var verifiedUser = db.Employees.Where(x => x.Email.Equals(c.Email) && x.Password.Equals(c.Password)).FirstOrDefault();
+                if (verifiedUser != null)
+                {
+                    Session["EmployeeEmail"] = c.Email.ToString();
+                    Session["EmployeeName"] = verifiedUser.Name.ToString();
+                    Session["EmployeeId"] = verifiedUser.Id.ToString();
+                    Session["EmployeeRole"] = verifiedUser.Role.ToString();
+                    return RedirectToAction("Index", "Employee");
+                }
+                else
+                {
+                    ViewBag.Notification = "Wrong Email or password";
+                    return View();
+                }
             }
+
             return View(c);
+        }
+
+        public ActionResult Logout()
+        {
+            Session.Remove("EmployeeEmail");
+            Session.Remove("EmployeeName");
+            Session.Remove("EmployeeId");
+            Session.Remove("EmployeeRole");
+            return RedirectToAction("Login", "Employee");
         }
 
 
@@ -203,6 +305,13 @@ namespace zero_hunger.Controllers
                 return RedirectToAction("Login", "Employee");
             }
             return RedirectToAction("Login", "Employee");
+        }
+
+        public ActionResult RestaurantList()
+        {
+            var db = new ZeroHungerContext();
+            var restaurantList = db.Restaurants.ToList();
+            return View(restaurantList);
         }
     }
 }

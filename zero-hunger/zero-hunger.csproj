@@ -155,6 +155,10 @@
     <Compile Include="Migrations\202311191433299_InitialModel.designer.cs">
       <DependentUpon>202311191433299_InitialModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202311211851553_DistributionModelRequireAtt.cs" />
+    <Compile Include="Migrations\202311211851553_DistributionModelRequireAtt.designer.cs">
+      <DependentUpon>202311211851553_DistributionModelRequireAtt.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -225,6 +229,9 @@
     <Content Include="Views\Employee\AssignEmployeeToCollect.cshtml" />
     <Content Include="Views\Employee\CollectedFood.cshtml" />
     <Content Include="Views\Employee\AssigndEmployeeCollReqList.cshtml" />
+    <Content Include="Views\Employee\AssignEmpForDist.cshtml" />
+    <Content Include="Views\Employee\DeliveredFoodList.cshtml" />
+    <Content Include="Views\Employee\RestaurantList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -264,6 +271,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202311191433299_InitialModel.resx">
       <DependentUpon>202311191433299_InitialModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202311211851553_DistributionModelRequireAtt.resx">
+      <DependentUpon>202311211851553_DistributionModelRequireAtt.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

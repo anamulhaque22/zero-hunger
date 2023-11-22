@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "AssignEmployeeToCollect";
+    ViewBag.HeadingTitle = "Assign Employee To Distribute";
+    Layout = "~/Views/Shared/_EmployeeLayout.cshtml";
+}
+
+@{
+    if (Session["EmployeeRole"] == null)
+    {
+        <script>
+            window.location.href = '/Employee/Login';
+        </script>
+    }
+    else
+    {
+        string sessionUserRole = Session["EmployeeRole"] as string;
+
+        if (sessionUserRole == zero_hunger.EF.Models.UserRole.Regular.ToString())
+        {
+            <h2>You are not permitted to assign employee to distribute food!</h2>
+        }
+        else
+        {
+            <div>
+                <h4 class="text-center mt-3">Collect Request from @ViewBag.CollectedFood.FoodItem</h4>
+            </div>
+            <div class="d-flex align-items-center justify-content-center h-100">
+
+                <form method="post" action="" class="shadow-lg p-4 mb-5 bg-body-tertiary rounded" enctype="multipart/form-data">
+                    <div class="form-group mb-3 d-flex flex-column">
+                        <label class="form-label" for="distribution">Distribution Area</label>
+                        <input type="text" name="Area" class="form-control" id="distribution" value="@(Model == null? "":Model.Area)" placeholder="Distribution Area">
+                        <span class="text-danger">@Html.ValidationMessage("Area")</span>
+                    </div>
+                    <div>
+                        <label>Select employee to distribute food</label>
+                        <select class="form-select mb-2" aria-label="Default select example" name="DistributedById">
+                            <option selected disabled>Select Employee</option>
+                            @foreach (var item in ViewBag.EmployeeList)
+                            {
+                                <option value="@item.Id" >@item.Name</option>
+                            }
+                        </select>
+
+                    </div>
+                    <input type="hidden" name="CollectRequestId" value="@ViewBag.CollectedFood.Id" />
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        }
+
+    }
+}
+

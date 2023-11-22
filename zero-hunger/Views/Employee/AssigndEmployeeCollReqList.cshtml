@@ -30,7 +30,7 @@
                 <td>@item.PreservedTime</td>
                 <td>@item.Status</td>
                 <td>
-                    <form method="post" action="@Url.Action("ChangeStatusToCollected", "Employee")" class="shadow-lg p-4 mb-5 bg-body-tertiary rounded">
+                    <form method="post" action="@Url.Action("ChangeStatusToCollected", "Employee")" >
                         <input type="hidden" name="Id" value="@item.Id" />
                         <button type="submit" class="btn btn-primary">Collected</button>
                     </form>
